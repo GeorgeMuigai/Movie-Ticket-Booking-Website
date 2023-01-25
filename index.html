@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/images/flaticon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/images/flaticon.png"
+    />
+    <link rel="stylesheet" href="assets/CSS/style.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/> -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"
+    />
+    <!-- swiper js css -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
+    />
+    <title>George Cinema - Movie Ticket booking</title>
+  </head>
+  <body>
+    <nav>
+      <a class="logo" href="index.html">
+        <span>George</span>
+        <span><img src="assets/images/play-32.png" />cinema</span>
+      </a>
+      <ul>
+        <li><a href="#">Movies</a></li>
+        <li><a href="#">Cinemas</a></li>
+        <li><a href="#">Offers</a></li>
+      </ul>
+      <div class="search-box">
+        <img src="assets/images/search.png" />
+        <input
+          type="text"
+          id="search-input"
+          placeholder="search movies, cinemas"
+        />
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="home swiper">
+        <div class="swiper-wrapper" id="mySwiper">
+          
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+      <div class="top-movies-week">
+        <div class="top-headings">
+          <div class="title t-1">
+            <h2>Top Movies This Week</h2>
+          </div>
+          <div class="title t-2">
+            <h2>Chart</h2>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="top-three">
+            <div class="one" id="one"></div>
+            <div class="others">
+              <div class="two" id="two"></div>
+              <div class="three" id="three"></div>
+            </div>
+          </div>
+          <div class="top-five">
+            <div class="movie-one" id="m_one"></div>
+            <div class="movie-two" id="m_two"></div>
+            <div class="movie-three" id="m_three"></div>
+            <div class="movie-four" id="m_four"></div>
+            <div class="movie-five" id="m_five"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mvs-now-showing">
+        <div class="now-showing-title">
+          <h2>Now Showing</h2>
+        </div>
+        <div class="movies-wrapper carousel" id="now-showing">
+            
+        </div>
+      </div>
+
+      <div class="coming-soon">
+        <div class="coming-soon-title">
+          <h2>Coming Soon</h2>
+        </div>
+        <div class="coming-soon-wrapper" id="coming-soon">
+
+        </div>
+      </div>
+    </div>
+    
+    <!-- swiper js -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <!-- jquery js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <!-- slick js -->
+    <script
+      type="text/javascript"
+      src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+    ></script>
+    <!-- custom js -->
+    <script src="assets/JS/main.js"></script>
+  </body>
+</html>
+

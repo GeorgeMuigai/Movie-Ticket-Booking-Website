@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/flaticon.png"/>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/flaticon.png"/>
+    <link rel="stylesheet" href="assets/CSS/style.css">
+    <link rel="stylesheet" href="assets/CSS/movie.css">
+    <title>George Cinema</title>
+</head>
+<body>
+    <nav>
+        <a class="logo" href="index.html">
+          <span>George</span>
+          <span><img src="assets/images/play-32.png" />cinema</span>
+        </a>
+        <ul>
+          <li><a href="#">Movies</a></li>
+          <li><a href="#">Cinemas</a></li>
+          <li><a href="#">Offers</a></li>
+        </ul>
+        <div class="search-box">
+          <img src="assets/images/search.png" />
+          <input
+            type="text"
+            id="search-input"
+            placeholder="search movies, cinemas"
+          />
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="movie-poster" id="movie-poster">
+            <div class="overlay"></div>
+        </div>
+        <div class="all-movie-details-container">
+            <div class="all-movie-details">            
+                <div class="movie-synopsis" id="movie-info">
+                
+                </div>
+                <div class="movie-trailer-cont" id="trailer-cont">
+                    
+                </div>
+                <div class="casts">
+                    <h3>Cast</h3>
+                    <div class="cast-int">
+                        <div class="cast-container" id="cast-container">
+                        </div>
+                        <div class="interested">
+                            <p>Interested in this movie?</p>
+                            <button class="cta">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="video-container">
+            <div class="video">
+                <!-- <video src="test.mp4" autoplay muted></video> -->
+            </div>
+        </div>
+    </div>
+    <script src="assets/JS/movie.js"></script>
+</body>
+</html>
