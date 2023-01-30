@@ -151,8 +151,12 @@ nav ul li a:hover::after {
     margin-left: 60px;
 }
 .book-btn a {
+    cursor: pointer;
     color: #fff;
     font-family: 'Viga', sans-serif;
+}
+.book-btn a:hover {
+    color: #000;
 }
 .swiper-pagination-bullet {
     width: 6px !important;

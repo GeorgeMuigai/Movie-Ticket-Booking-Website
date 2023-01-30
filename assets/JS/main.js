@@ -18,14 +18,10 @@ var coming = document.getElementById("coming-soon");
 var btn_book = document.getElementById("btn-book-now");
 
 
-
-// test.addEventListener('click', ()=>{
-//     window.location.href = "text.html?number=1";
-// });
-
 // go to clicked movie
-function goToMovie() {
-    console.log("you clicked this movie!");
+function goToMovie(slug) {
+    var slugname = slug;
+    window.location.href = `movie.html?movie=${slugname}`;
 }
 
 // get slider movies
@@ -40,11 +36,11 @@ fetch("https://api.kenyabuzz.com/mvsHot")
         })
         .then(res => {
             for (let i= 0; i < res.data.length; i++) {
-                
+                var synopsis = res.data[i].synopsis;
+                var movieName = res.data[i].name;
+                var slug = res.data[i].slug;
                 if (res.data[i].api_data != null) {
                     var image =  "https://image.tmdb.org/t/p/original" +  res.data[i].api_data.backdrop_path;  
-                    var synopsis = res.data[i].synopsis;
-                    var movieName = res.data[i].name;
                     var genres = "";
                     for(let j = 0; j < res.data[i].api_data.genres.length; j++) {
                         if (j === res.data[i].api_data.genres.length - 1) {
@@ -55,8 +51,15 @@ fetch("https://api.kenyabuzz.com/mvsHot")
                     }
                     // console.log(genres);
                     // console.log(res.data[i].api_data.genres.length + image);
-                    var data = '<div class="swiper-slide slide-no "><div class="overlay"></div><img src=' + image + '><div class=`info-container"><div class="movie-info"><div class="movie-title"><h2>'+ movieName +'</h2></div><div class="movie-genres"><span>' + genres + '</span></div><div class="synopsis"><p>' + synopsis + '</p></div></div><div class="book-btn"><a onclick="goToMovie()">Book Now</a></div></div></div>';
+                    var data = '<div class="swiper-slide slide-no "><div class="overlay"></div><img src=' + image + '><div class=`info-container"><div class="movie-info"><div class="movie-title"><h2>'+ movieName +'</h2></div><div class="movie-genres"><span>' + genres + '</span></div><div class="synopsis"><p>' + synopsis + '</p></div></div><div class="book-btn"><a href="movie.html?movie='+ slug +'">Book Now</a></div></div></div>';
                     mySwiper.innerHTML += data;
+                } else {
+                    var image = "https://manage.kenyabuzz.com/public" + res.data[i].poster;
+                    var genre = res.data[i].genre;
+
+                    var null_data = '<div class="swiper-slide slide-no "><div class="overlay"></div><img src=' + image + '><div class=`info-container"><div class="movie-info"><div class="movie-title"><h2>'+ movieName +'</h2></div><div class="movie-genres"><span>' + genre + '</span></div><div class="synopsis"><p>' + synopsis + '</p></div></div><div class="book-btn"><a href="movie.html?movie='+ slug +'">Book Now</a></div></div></div>';
+
+                    mySwiper.innerHTML += null_data;                    
                 }
             }
         })
