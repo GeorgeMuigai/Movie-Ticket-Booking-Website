@@ -89,23 +89,23 @@ function movieShowingOnDate(date) {
                         var cinema_name = res[i].cinemas[j].cinema_name;
                         var cin_div = '<div class="cinema"><div class="cinema-title"><h2>'+ cinema_name +'</h2></div><div class="start_time_cont">';
                         
-                        // console.log(cinema_name);
                         for (let m = 0; m < res[i].cinemas[j].movies.length; m++) {
-                            for (let n = 0; n < res[i].cinemas[j].movies[m].length; n++) {
+                            for (let n = res[i].cinemas[j].movies[m].length - 1; n != -1; n--) {
                                 if (res[i].cinemas[j].movies[m][n].movie_slug === movie) {
                                     console.log(movie + ` found at ${m} ${n} site id ${res[i].cinemas[j].movies[m][n].site_id}`);
                                     var movie_time = res[i].cinemas[j].movies[m][n].movie_date_time;
+                                    // var seatDesc = res[i].cinemas[j].movies[m][n].performance_info.admitOne.tickets.ticket[0].seatDescription;
+                                    var seatDesc = res[i].cinemas[j].movies[m][n].performance_info.admitOne.bookingFee;
                                     const date = new Date(movie_time);
 
                                     const options = { hour: 'numeric', minute: 'numeric', hour12: true };
                                     var formattedTime = date.toLocaleTimeString('en-US', options);
 
-                                    var show_t = '<div class="start_time"><h2>'+ formattedTime +'</h2><p>764 seats</p></div>'; 
+                                    var show_t = '<div class="start_time"><h2>'+ formattedTime +'</h2><p>'+ seatDesc +'</p></div>'; 
                                     cin_div += show_t;
                                 }
                             }
                         }
-                        // console.log(res[i].cinemas[j].cinema_name);
                         cin_div += '</div></div>';
                         cinemas_cont.innerHTML += cin_div;
                     }

@@ -6,20 +6,21 @@ let movie_info = document.getElementById('movie-info');
 let trailerCont = document.getElementById('trailer-cont');
 let cast_cont = document.getElementById('cast-container');
 let book_movie = document.getElementById("book_movie");
+let video_container = document.querySelector('.video-container');
 
 documentName = movie.split('-').join(' ');
 
-console.log(documentName);
-
 document.title = documentName;
+
+let youTube_id = '';
 
 fetch (`https://api.kenyabuzz.com/mvDetailsBySlg/${movie}`)
     .then(result => result.json())
     .then(res => {
+        youTube_id = res.data.youtube_id;
         if (res.data.api_data != null) {
             // movie
             var title = res.data.name;
-            var YTId = res.data.youtube_id;
             var poster = "https://image.tmdb.org/t/p/original" + res.data.api_data.poster_path
             if (res.data.api_data.backdrop_path === null) {
                 backdrop_img = poster;
@@ -86,18 +87,31 @@ fetch (`https://api.kenyabuzz.com/mvDetailsBySlg/${movie}`)
                 duration += minutes + " minutes" ;
             }
 
-            var crew = '<div class="crew"><p>Directed by: '+ director +'</p><p>Duration : '+ duration +'</p><p>Language : '+ language +'</p><p>Production company : '+ production +'</p></div><div class="movie-trailer"><div class="overlay"></div><img class="thumbnail" src="'+ poster +'" alt='+ title +' poster><img class="play-trailer" src="assets/images/play-32.png" alt="play button"></div>';
+            var crew = '<div class="crew"><p>Directed by: '+ director +'</p><p>Duration : '+ duration +'</p><p>Language : '+ language +'</p><p>Production company : '+ production +'</p></div><div class="movie-trailer"><div class="overlay"></div><img class="thumbnail" src="'+ poster +'" alt='+ title +' poster><img class="play-trailer" src="assets/images/play-32.png" alt="play button" id="play_btn"></div>';
 
             trailerCont.innerHTML = crew;
     } else {
         var poster = "https://manage.kenyabuzz.com/public" + res.data.poster;
         synopsis = '<div class="movie-poster-img"><img src="' + poster +'" alt="' + res.data.name +' poster img"></div><div class="movie-d"><div class="title"><h2>'+ res.data.name +'</h2></div><div class="movie-d-synopsis"><p>' + res.data.synopsis +'</p></div></div>';
         var api_null_image = '<img id="movie-backdrop" src=" ' + res.data.image + '" alt="'+ res.data.image +' backdrop image">';;
-        var null_crew = '<div class="crew"><p>Directed by: '+ '' +'</p><p>Duration : '+ '' +'</p><p>Language : '+ '' +'</p><p>Production company : '+ '' +'</p></div><div class="movie-trailer"><div class="overlay"></div><img class="thumbnail" src="'+ poster +'" alt='+ res.data.name +' poster><img class="play-trailer" src="assets/images/play-32.png" alt="play button"></div>';
+        var null_crew = '<div class="crew"><p>Directed by: '+ '' +'</p><p>Duration : '+ '' +'</p><p>Language : '+ '' +'</p><p>Production company : '+ '' +'</p></div><div class="movie-trailer"><div class="overlay"></div><img class="thumbnail" src="'+ poster +'" alt='+ res.data.name +' poster><img class="play-trailer" src="assets/images/play-32.png" alt="play button" id="play_btn"></div>';
         backdrop.innerHTML += api_null_image;
         movie_info.innerHTML = synopsis;
         trailerCont.innerHTML = null_crew;
     }
+    let play_btn = document.getElementById('play_btn');
+    
+    play_btn.addEventListener('click', ()=> {
+        var video = '<div class="video"><iframe width="720" height="405" src="https://www.youtube.com/embed/'+ youTube_id +'?autoplay=1" title="'+ documentName +'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>';    
+        video_container.innerHTML = video;
+        video_container.style.display = "flex";
+    });
+    
+    
+    video_container.addEventListener('click', ()=> {
+        video_container.innerHTML = '';
+        video_container.style.display = "none";
+    });
     })
     .catch (err => {
         console.log(err);
