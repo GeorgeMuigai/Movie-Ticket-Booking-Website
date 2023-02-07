@@ -3,11 +3,13 @@ let urlParams = new URLSearchParams(params);
 let movie = urlParams.get('movie');
 let backdrop = document.getElementById('movie-poster');
 let movie_info = document.getElementById('movie-info');
-
+let theatreDate = '';
 let dates = document.getElementById('dates');
+let cinemas_cont = document.getElementById('cinemas');
 
 document.title = movie.split('-').join(' ');
 
+// get movie details
 fetch (`https://api.kenyabuzz.com/mvDetailsBySlg/${movie}`)
     .then(result => result.json())
     .then(res => {
@@ -25,15 +27,16 @@ fetch (`https://api.kenyabuzz.com/mvDetailsBySlg/${movie}`)
 
             var back_img = '<img id="movie-backdrop" src=" ' + backdrop_img + '" alt="'+ title +' backdrop image">';
             synopsis = '<div class="movie-poster-img"><img src="' + poster +'" alt="' + title +' poster img"></div><div class="movie-d"><div class="title"><h2>'+ title +'</h2></div><div class="movie-d-synopsis"><p>' + synopsis +'</p></div></div>';
+            
+            backdrop.innerHTML += back_img;
+            movie_info.innerHTML = synopsis;
+        } else {
+            var api_null_image = "https://manage.kenyabuzz.com/public" + res.data.poster;
+            var back_img = '<img id="movie-backdrop" src=" ' + api_null_image + '" alt="'+ res.data.name +' backdrop image">';
+            synopsis = '<div class="movie-poster-img"><img src="' + api_null_image +'" alt="' + res.data.name +' poster img"></div><div class="movie-d"><div class="title"><h2>'+ res.data.name +'</h2></div><div class="movie-d-synopsis"><p>' + res.data.synopsis +'</p></div></div>';
 
             backdrop.innerHTML += back_img;
             movie_info.innerHTML = synopsis;
-    } else {
-        var poster = "https://manage.kenyabuzz.com/public" + res.data.poster;
-        synopsis = '<div class="movie-poster-img"><img src="' + poster +'" alt="' + res.data.name +' poster img"></div><div class="movie-d"><div class="title"><h2>'+ res.data.name +'</h2></div><div class="movie-d-synopsis"><p>' + res.data.synopsis +'</p></div></div>';
-
-        backdrop.innerHTML += api_null_image;
-        movie_info.innerHTML = synopsis;
     }
     })
     .catch (err => {
@@ -42,12 +45,15 @@ fetch (`https://api.kenyabuzz.com/mvDetailsBySlg/${movie}`)
 
 let dateString;
 
-
-fetch("https://api.kenyabuzz.com/getFullCinemasSchedule")
+// get show time and theatres
+fetch("https://api.kenyabuzz.com/getFullCinemasScheduleStream")
 .then(result => result.json())
 .then(res => {
-    for(let i = 0; i < res.data.vista_schedule.length; i++) {
-            dateString = res.data.vista_schedule[i].show_date;
+    // display date, time & theatres
+    for(let i = 0; i < res.length; i++) {
+            // dateString = res.data.vista_schedule[i].show_date;
+            dateString = res[i].show_date;
+            theatreDate = res[0].show_date;
             const date = new Date(dateString);
             
             // week day
@@ -65,8 +71,49 @@ fetch("https://api.kenyabuzz.com/getFullCinemasSchedule")
 
             var date_div = '<div class="date"><div class="weekday"><h4>'+ weekday +'</h4></div><div class="day"><h2>'+ day +'</h2></div><div class="year"><h5>'+ month +', '+ year +'</h5></div>';
             dates.innerHTML += date_div;
-        }
+    }
+    movieShowingOnDate(theatreDate);
     })
     .catch(err => {
         console.log(err);
     })
+
+function movieShowingOnDate(date) {
+    console.log(date);
+    fetch("https://api.kenyabuzz.com/getFullCinemasScheduleStream")
+        .then(result => result.json())
+        .then(res => {
+            for (let i = 0; i < res.length; i++) {
+                if (res[i].show_date === date.toString()) {
+                    for (let j = 0; j < res[i].cinemas.length; j++) {
+                        var cinema_name = res[i].cinemas[j].cinema_name;
+                        var cin_div = '<div class="cinema"><div class="cinema-title"><h2>'+ cinema_name +'</h2></div><div class="start_time_cont">';
+                        
+                        // console.log(cinema_name);
+                        for (let m = 0; m < res[i].cinemas[j].movies.length; m++) {
+                            for (let n = 0; n < res[i].cinemas[j].movies[m].length; n++) {
+                                if (res[i].cinemas[j].movies[m][n].movie_slug === movie) {
+                                    console.log(movie + ` found at ${m} ${n} site id ${res[i].cinemas[j].movies[m][n].site_id}`);
+                                    var movie_time = res[i].cinemas[j].movies[m][n].movie_date_time;
+                                    const date = new Date(movie_time);
+
+                                    const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+                                    var formattedTime = date.toLocaleTimeString('en-US', options);
+
+                                    var show_t = '<div class="start_time"><h2>'+ formattedTime +'</h2><p>764 seats</p></div>'; 
+                                    cin_div += show_t;
+                                }
+                            }
+                        }
+                        // console.log(res[i].cinemas[j].cinema_name);
+                        cin_div += '</div></div>';
+                        cinemas_cont.innerHTML += cin_div;
+                    }
+                    break;
+                }
+            }
+        })
+        .catch(err => {
+            console.log("Api error " + err);
+        })
+}
